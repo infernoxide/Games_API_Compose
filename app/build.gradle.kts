@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    //Dagger + kapt
+    alias(libs.plugins.daggerHilt)
+    id("kotlin-kapt")
 }
 
 android {
@@ -66,4 +69,16 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    //Retrofit
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    //Coil
+    implementation(libs.coil)
+    //Navigation
+    implementation(libs.compose.navigation)
+    //Dagger
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
 }

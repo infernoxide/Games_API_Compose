@@ -20,10 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             GamesAPIComposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Greeting(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -31,9 +28,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
+        text = "API RAWG!",
         modifier = modifier
     )
 }
@@ -42,6 +39,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     GamesAPIComposeTheme {
-        Greeting("Android")
+        Greeting()
     }
 }
