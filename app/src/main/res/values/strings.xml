@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Games API Compose</string>
+    <string name="app_name">RAWG with Compose</string>
+
+    <string name="empty_name">Sin nombre</string>
+    <string name="back_button">Volver</string>
+    <string name="title_home_view">RAWG API Games</string>
+    <string name="videogame_cover">portada de videojuego</string>
+    <string name="no_cover_image">sin portada</string>
+
 </resources>
