@@ -49,4 +49,14 @@ class GamesViewModel @Inject constructor(private val repository: GamesRepository
         }
     }
 
+    fun clearState(){
+        state = state.copy(
+            name = "",
+            description_raw = "",
+            metacritic = 0,
+            website = "",
+            background_image = ""
+        )
+    }
+
 }

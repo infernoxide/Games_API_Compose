@@ -2,10 +2,14 @@
 <resources>
 
     <dimen name="size_5dp">5.dp</dimen>
+    <dimen name="size_8dp">8.dp</dimen>
     <dimen name="size_10dp">10.dp</dimen>
+    <dimen name="size_15dp">15.dp</dimen>
+    <dimen name="size_16dp">16.dp</dimen>
     <dimen name="size_20dp">20.dp</dimen>
     <dimen name="size_30dp">30.dp</dimen>
     <dimen name="size_40dp">40.dp</dimen>
+    <dimen name="size_50dp">50.dp</dimen>
     <dimen name="size_250dp">250.dp</dimen>
 
 </resources>
