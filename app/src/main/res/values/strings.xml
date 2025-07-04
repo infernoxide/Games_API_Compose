@@ -6,5 +6,7 @@
     <string name="title_home_view">RAWG API Games</string>
     <string name="videogame_cover">portada de videojuego</string>
     <string name="no_cover_image">sin portada</string>
+    <string name="metacritic">METASCORE</string>
+    <string name="website">Sitio Web</string>
 
 </resources>
