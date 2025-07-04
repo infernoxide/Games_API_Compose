@@ -14,13 +14,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavController
 import com.example.gamesapicompose.R
 import com.example.gamesapicompose.composables.GameCard
 import com.example.gamesapicompose.composables.MainTopBar
+import com.example.gamesapicompose.util.Constants.Companion.NAV_DETAIL_VIEW
 import com.example.gamesapicompose.viewmodel.GamesViewModel
 
 @Composable
-fun HomeView(viewModel: GamesViewModel) {
+fun HomeView(viewModel: GamesViewModel, navController: NavController) {
 
     Scaffold(
         topBar = {
@@ -28,18 +30,20 @@ fun HomeView(viewModel: GamesViewModel) {
         }
 
     ) { paddingValues ->
-        ContentHomeView(viewModel, paddingValues)
+        ContentHomeView(viewModel, paddingValues, navController)
     }
 
 }
 
 @Composable
-fun ContentHomeView(viewModel: GamesViewModel, paddingValues: PaddingValues) {
+fun ContentHomeView(viewModel: GamesViewModel, paddingValues: PaddingValues, navController: NavController) {
     val games by viewModel.games.collectAsState()
 
     LazyColumn(modifier = Modifier.padding(paddingValues = paddingValues)) {
         items(games) { item ->
-            GameCard(item) {}
+            GameCard(item) {
+                navController.navigate("$NAV_DETAIL_VIEW/${item.id}")
+            }
             Text(
                 text = if (item.name!!.isNotEmpty()) item.name else stringResource(R.string.empty_name),
                 fontWeight = FontWeight.ExtraBold,
