@@ -9,9 +9,15 @@ import com.example.gamesapicompose.composables.MainTopBar
 import com.example.gamesapicompose.viewmodel.GamesViewModel
 
 @Composable
-fun DetailView(viewModel: GamesViewModel, navController: NavController, id:Int){
+fun DetailView(viewModel: GamesViewModel, navController: NavController, id:Int, name:String?){
     LaunchedEffect(Unit) {
-        viewModel.getGameByID(id)
+        if (id == 0){
+            name?.let { value ->
+                viewModel.getGameByName(value.replace(" ","-"))
+            }
+        }else{
+            viewModel.getGameByID(id)
+        }
     }
     DisposableEffect(Unit) {
         onDispose {

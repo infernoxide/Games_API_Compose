@@ -18,7 +18,7 @@ fun GameCard(game: GameList, onclick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(dimensionResource(R.dimen.size_5dp)),
         modifier = Modifier
-            .padding(dimensionResource(R.dimen.size_10dp))
+            .padding(vertical = dimensionResource(R.dimen.size_10dp))
             .shadow(dimensionResource(R.dimen.size_40dp))
             .clickable { onclick() }
     ) {

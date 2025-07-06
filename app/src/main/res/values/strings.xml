@@ -8,5 +8,6 @@
     <string name="no_cover_image">sin portada</string>
     <string name="metacritic">METASCORE</string>
     <string name="website">Sitio Web</string>
+    <string name="search">Buscar</string>
 
 </resources>

@@ -19,4 +19,7 @@ interface ApiGames {
     @GET(ENDPOINT+API_KEY)
     suspend fun getGamesByPaging(@Query("page") page:Int, @Query("page_size") pageSize:Int) : GamesModel
 
+    @GET("$ENDPOINT/{name}$API_KEY")
+    suspend fun getGameByName(@Path(value = "name") id: String): Response<SingleGameModel>
+
 }
