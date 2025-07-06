@@ -7,6 +7,7 @@ import com.example.gamesapicompose.util.Constants.Companion.ENDPOINT
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiGames {
     @GET(ENDPOINT+API_KEY)
@@ -14,5 +15,8 @@ interface ApiGames {
 
     @GET("$ENDPOINT/{id}$API_KEY")
     suspend fun getGameByID(@Path(value = "id") id: Int): Response<SingleGameModel>
+
+    @GET(ENDPOINT+API_KEY)
+    suspend fun getGamesByPaging(@Query("page") page:Int, @Query("page_size") pageSize:Int) : GamesModel
 
 }

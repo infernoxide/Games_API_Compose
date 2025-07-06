@@ -2,6 +2,7 @@ package com.example.gamesapicompose.repository
 
 import com.example.gamesapicompose.data.ApiGames
 import com.example.gamesapicompose.model.GameList
+import com.example.gamesapicompose.model.GamesModel
 import com.example.gamesapicompose.model.SingleGameModel
 import javax.inject.Inject
 
@@ -23,6 +24,10 @@ class GamesRepository @Inject constructor(private val apiGames: ApiGames) {
             return response.body()
 
         return null
+    }
+
+    suspend fun getGamesByPaging(page: Int, pageSize: Int): GamesModel {
+        return apiGames.getGamesByPaging(page, pageSize)
     }
 
 }
