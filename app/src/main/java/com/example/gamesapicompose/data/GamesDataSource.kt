@@ -14,16 +14,15 @@ class GamesDataSource(private val repository: GamesRepository) : PagingSource<In
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GameList> {
-        return try{
+        return try {
             val nextPageNumber = params.key ?: 1
-            val response = repository.getGamesByPaging(nextPageNumber,3)
+            val response = repository.getGamesByPaging(nextPageNumber, 3)
             LoadResult.Page(
                 data = response.results,
                 prevKey = null,
-                nextKey = (if (response.results.isNotEmpty()) nextPageNumber.plus(1) else null)
+                nextKey = if (response.results.isNotEmpty()) nextPageNumber + 1 else null
             )
-        }
-        catch(e:Exception){
+        } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }
