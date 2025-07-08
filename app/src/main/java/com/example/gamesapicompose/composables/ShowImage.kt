@@ -13,7 +13,14 @@ import com.example.gamesapicompose.R
 
 @Composable
 fun ShowImage(image: String) {
-    val videoGameCover = rememberImagePainter(data = image)
+    val videoGameCover = rememberImagePainter(
+        data = image,
+        builder = {
+            placeholder(R.drawable.icon_image_placeholder)
+            error(R.drawable.icon_image_not_found)
+            fallback(R.drawable.icon_image_not_found)
+        }
+    )
 
     Image(
         painter = videoGameCover,
@@ -23,5 +30,4 @@ fun ShowImage(image: String) {
             .fillMaxWidth()
             .height(dimensionResource(id = R.dimen.size_250dp))
     )
-
 }
