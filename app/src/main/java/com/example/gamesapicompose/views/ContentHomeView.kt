@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -29,6 +27,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.gamesapicompose.R
 import com.example.gamesapicompose.composables.GameCard
+import com.example.gamesapicompose.composables.ShimmerHomeResults
 import com.example.gamesapicompose.util.Constants.Companion.NAV_DETAIL_VIEW
 import com.example.gamesapicompose.viewmodel.GamesViewModel
 
@@ -48,13 +47,15 @@ fun ContentHomeView(viewModel: GamesViewModel, paddingValues: PaddingValues, nav
         when (gamesPage.loadState.refresh) {
             is LoadState.Error -> {
                 val error = (gamesPage.loadState.refresh as LoadState.Error).error
-                Text("Error: ${error.message}")
-                Button(onClick = { gamesPage.retry() }) {
-                    Text("Reintentar")
+                error.message?.let {
+                    NoInternetConnectionView(
+                        error = it,
+                        onRetry = { gamesPage.retry() }
+                    )
                 }
             }
             is LoadState.Loading -> {
-                CircularProgressIndicator()
+                ShimmerHomeResults()
             }
             else -> {
                 TextField(

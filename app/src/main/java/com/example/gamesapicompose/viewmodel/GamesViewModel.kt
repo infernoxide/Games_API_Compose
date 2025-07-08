@@ -27,7 +27,8 @@ class GamesViewModel @Inject constructor(
     val gamesPage = Pager(PagingConfig(pageSize = 3)){
         GamesDataSource(repository)
     }.flow.cachedIn(viewModelScope)
-
+    var loading by mutableStateOf(false)
+        private set
     init {
         networkMonitor.start()
 
@@ -43,6 +44,7 @@ class GamesViewModel @Inject constructor(
 
     fun getGameByID(id: Int) {
         viewModelScope.launch {
+            loading = true
             if (networkMonitor.isConnected.value) {
                 val result = repository.getGameByID(id)
                 state = state.copy(
@@ -52,8 +54,10 @@ class GamesViewModel @Inject constructor(
                     website = result?.website ?: "",
                     background_image = result?.background_image ?: ""
                 )
+                loading = false
             } else {
                 pendingAction = { getGameByID(id) }
+                loading = false
             }
         }
     }
