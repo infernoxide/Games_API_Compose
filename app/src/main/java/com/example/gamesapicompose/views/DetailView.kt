@@ -2,10 +2,12 @@ package com.example.gamesapicompose.views
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.example.gamesapicompose.R
 import com.example.gamesapicompose.composables.MainTopBar
+import com.example.gamesapicompose.util.UiState
 import com.example.gamesapicompose.viewmodel.GamesViewModel
 
 @Composable
@@ -19,18 +21,22 @@ fun DetailView(viewModel: GamesViewModel, navController: NavController, id:Int, 
             viewModel.getGameByID(id)
         }
     }
-    DisposableEffect(Unit) {
-        onDispose {
-            viewModel.clearState()
-        }
-    }
     Scaffold(
         topBar = {
-            MainTopBar(title = viewModel.state.name, showBackButton = true) {
+            MainTopBar(title = setTitle(viewModel), showBackButton = true) {
                 navController.popBackStack()
             }
         }
     ) { paddingValues ->
         ContentDetailView(viewModel, paddingValues)
+    }
+}
+
+@Composable
+fun setTitle(viewModel: GamesViewModel):String{
+    return when (val state = viewModel.gameByIdState){
+        is UiState.Loading -> stringResource(R.string.loading)
+        is UiState.Success -> state.data.name
+        is UiState.Error -> stringResource(R.string.error)
     }
 }
