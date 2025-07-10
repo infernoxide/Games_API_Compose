@@ -17,8 +17,10 @@ import androidx.compose.ui.unit.sp
 import com.example.gamesapicompose.R
 
 @Composable
-fun NoInternetConnectionView(
-    error: String, onRetry: () -> Unit
+fun ErrorView(
+    buttonText: String?= "",
+    error: String,
+    onRetry: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -32,8 +34,14 @@ fun NoInternetConnectionView(
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center
         )
-        Button(onClick = { onRetry() }) {
-            Text(stringResource(R.string.retry))
+        if (!buttonText.isNullOrEmpty()){
+            Button(
+                onClick = {
+                    onRetry()
+                }
+            ) {
+                Text(buttonText)
+            }
         }
     }
 }

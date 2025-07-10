@@ -1,5 +1,6 @@
 package com.example.gamesapicompose.viewmodel
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,27 +9,30 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.example.gamesapicompose.R
 import com.example.gamesapicompose.data.GamesDataSource
 import com.example.gamesapicompose.di.NetworkMonitor
+import com.example.gamesapicompose.model.SingleGameModel
 import com.example.gamesapicompose.repository.GamesRepository
-import com.example.gamesapicompose.state.GameState
+import com.example.gamesapicompose.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class GamesViewModel @Inject constructor(
     private val repository: GamesRepository,
-    private val networkMonitor: NetworkMonitor
+    private val networkMonitor: NetworkMonitor,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
     private var pendingAction: (() -> Unit) ?= null
-    var state by mutableStateOf(GameState())
-        private set
     val gamesPage = Pager(PagingConfig(pageSize = 3)){
         GamesDataSource(repository)
     }.flow.cachedIn(viewModelScope)
-    var loading by mutableStateOf(false)
+    var gameByIdState: UiState<SingleGameModel> by mutableStateOf(UiState.Loading)
         private set
+
     init {
         networkMonitor.start()
 
@@ -44,49 +48,36 @@ class GamesViewModel @Inject constructor(
 
     fun getGameByID(id: Int) {
         viewModelScope.launch {
-            loading = true
+            gameByIdState = UiState.Loading
             if (networkMonitor.isConnected.value) {
                 val result = repository.getGameByID(id)
-                state = state.copy(
-                    name = result?.name ?: "",
-                    description_raw = result?.description_raw ?: "",
-                    metacritic = result?.metacritic ?: 101,
-                    website = result?.website ?: "",
-                    background_image = result?.background_image ?: ""
-                )
-                loading = false
+                gameByIdState = if (result != null) {
+                    UiState.Success(result)
+                } else {
+                    UiState.Error(context.getString(R.string.id_not_found, id.toString()))
+                }
             } else {
                 pendingAction = { getGameByID(id) }
-                loading = false
+                gameByIdState = UiState.Error(context.getString(R.string.no_internet_connection))
             }
         }
     }
 
     fun getGameByName(name: String) {
         viewModelScope.launch {
+            gameByIdState = UiState.Loading
             if (networkMonitor.isConnected.value) {
                 val result = repository.getGameByName(name)
-                state = state.copy(
-                    name = result?.name ?: "",
-                    description_raw = result?.description_raw ?: "",
-                    metacritic = result?.metacritic ?: 101,
-                    website = result?.website ?: "",
-                    background_image = result?.background_image ?: ""
-                )
+                gameByIdState = if (result != null) {
+                    UiState.Success(result)
+                } else {
+                    UiState.Error(context.getString(R.string.id_not_found, name))
+                }
             } else {
                 pendingAction = { getGameByName(name) }
+                gameByIdState = UiState.Error(context.getString(R.string.no_internet_connection))
             }
         }
-    }
-
-    fun clearState(){
-        state = state.copy(
-            name = "",
-            description_raw = "",
-            metacritic = 0,
-            website = "",
-            background_image = ""
-        )
     }
 
     override fun onCleared() {

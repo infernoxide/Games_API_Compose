@@ -22,12 +22,13 @@ import com.example.gamesapicompose.composables.MetacriticWebsite
 import com.example.gamesapicompose.composables.MetascoreCard
 import com.example.gamesapicompose.composables.ShimmerDetailView
 import com.example.gamesapicompose.composables.ShowImage
+import com.example.gamesapicompose.util.UiState
 import com.example.gamesapicompose.viewmodel.GamesViewModel
 
 @Composable
 fun ContentDetailView(viewModel: GamesViewModel, paddingValues: PaddingValues) {
-    val state = viewModel.state
     val scroll = rememberScrollState(0)
+    val stateLoading = viewModel.gameByIdState
 
     Column(
         Modifier
@@ -35,34 +36,41 @@ fun ContentDetailView(viewModel: GamesViewModel, paddingValues: PaddingValues) {
             .background(Color.White)
     ) {
 
-        if (viewModel.loading){
-            ShimmerDetailView()
-        }else{
-            ShowImage(image = viewModel.state.background_image)
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.size_10dp)))
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = dimensionResource(R.dimen.size_20dp),
-                        end = dimensionResource(R.dimen.size_5dp)
-                    )
-            ) {
-                MetacriticWebsite(state.website)
-                MetascoreCard(state.metacritic)
+        when (stateLoading) {
+            is UiState.Loading -> ShimmerDetailView()
+            is UiState.Success -> {
+                ShowImage(image = stateLoading.data.background_image)
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.size_10dp)))
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = dimensionResource(R.dimen.size_20dp),
+                            end = dimensionResource(R.dimen.size_5dp)
+                        )
+                ) {
+                    MetacriticWebsite(stateLoading.data.website)
+                    MetascoreCard(stateLoading.data.metacritic)
+                }
+                Text(
+                    text = stateLoading.data.description_raw,
+                    color = Color.Black,
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier
+                        .padding(
+                            horizontal = dimensionResource(R.dimen.size_15dp),
+                            vertical = dimensionResource(R.dimen.size_10dp)
+                        )
+                        .verticalScroll(scroll)
+                )
             }
-            Text(
-                text = state.description_raw,
-                color = Color.Black,
-                textAlign = TextAlign.Justify,
-                modifier = Modifier
-                    .padding(
-                        horizontal = dimensionResource(R.dimen.size_15dp),
-                        vertical = dimensionResource(R.dimen.size_10dp)
-                    )
-                    .verticalScroll(scroll)
-            )
+            is UiState.Error -> {
+                ErrorView(
+                    error = stateLoading.message,
+                    onRetry = {}
+                )
+            }
         }
     }
 }

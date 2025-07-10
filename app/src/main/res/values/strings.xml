@@ -13,5 +13,9 @@
     <string name="an_error_has_happened">Ha ocurrido un error:\n</string>
     <string name="retry">Reintentar</string>
     <string name="shimmer_home">Shimmer home</string>
+    <string name="id_not_found">No se pudo cargar el juego con ID: %1$s</string>
+    <string name="game_not_found">No se encontraron resultados para: %1$s</string>
+    <string name="error">Error</string>
+    <string name="loading">Cargando</string>
 
 </resources>

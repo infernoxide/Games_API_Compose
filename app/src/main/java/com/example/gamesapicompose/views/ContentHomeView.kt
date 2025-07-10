@@ -48,7 +48,8 @@ fun ContentHomeView(viewModel: GamesViewModel, paddingValues: PaddingValues, nav
             is LoadState.Error -> {
                 val error = (gamesPage.loadState.refresh as LoadState.Error).error
                 error.message?.let {
-                    NoInternetConnectionView(
+                    ErrorView(
+                        buttonText = stringResource(R.string.retry),
                         error = it,
                         onRetry = { gamesPage.retry() }
                     )
