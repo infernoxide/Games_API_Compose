@@ -1,6 +1,7 @@
 package com.example.gamesapicompose.model
 
 data class SingleGameModel(
+    val id:Int,
     val name: String,
     val description_raw: String,
     val metacritic: Int,

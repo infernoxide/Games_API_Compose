@@ -12,7 +12,8 @@ import androidx.paging.cachedIn
 import com.example.gamesapicompose.R
 import com.example.gamesapicompose.data.GamesDataSource
 import com.example.gamesapicompose.di.NetworkMonitor
-import com.example.gamesapicompose.model.SingleGameModel
+import com.example.gamesapicompose.local.DetailGame
+import com.example.gamesapicompose.model.mapper.toEntity
 import com.example.gamesapicompose.repository.GamesRepository
 import com.example.gamesapicompose.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +31,7 @@ class GamesViewModel @Inject constructor(
     val gamesPage = Pager(PagingConfig(pageSize = 3)){
         GamesDataSource(repository)
     }.flow.cachedIn(viewModelScope)
-    var gameByIdState: UiState<SingleGameModel> by mutableStateOf(UiState.Loading)
+    var gameByIdState: UiState<DetailGame> by mutableStateOf(UiState.Loading)
         private set
 
     init {
@@ -49,16 +50,20 @@ class GamesViewModel @Inject constructor(
     fun getGameByID(id: Int) {
         viewModelScope.launch {
             gameByIdState = UiState.Loading
+            val result = repository.getGameByID(id)
             if (networkMonitor.isConnected.value) {
-                val result = repository.getGameByID(id)
                 gameByIdState = if (result != null) {
                     UiState.Success(result)
                 } else {
                     UiState.Error(context.getString(R.string.id_not_found, id.toString()))
                 }
             } else {
-                pendingAction = { getGameByID(id) }
-                gameByIdState = UiState.Error(context.getString(R.string.no_internet_connection))
+                gameByIdState = if (result != null) {
+                    UiState.Success(result)
+                } else {
+                    pendingAction = { getGameByID(id) }
+                    UiState.Error(context.getString(R.string.no_internet_connection))
+                }
             }
         }
     }
@@ -69,9 +74,9 @@ class GamesViewModel @Inject constructor(
             if (networkMonitor.isConnected.value) {
                 val result = repository.getGameByName(name)
                 gameByIdState = if (result != null) {
-                    UiState.Success(result)
+                    UiState.Success(result.toEntity())
                 } else {
-                    UiState.Error(context.getString(R.string.id_not_found, name))
+                    UiState.Error(context.getString(R.string.game_not_found, name))
                 }
             } else {
                 pendingAction = { getGameByName(name) }

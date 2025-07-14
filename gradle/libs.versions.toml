@@ -27,6 +27,9 @@ coilVersion = "1.4.0"
 pagingVersion="3.1.1"
 pagingComposeVersion="1.0.0-alpha15"
 
+#Room
+roomVersion = "2.6.1"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -63,9 +66,18 @@ compose-navigation = {module = "androidx.navigation:navigation-compose", version
 #Coil
 coil = { module="io.coil-kt:coil-compose", version.ref = "coilVersion"}
 
+#Room
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+room-paging-version = { group = "androidx.room", name = "room-paging", version.ref = "roomVersion"}
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 #Dagger
 daggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHiltVersion" }
+
+#Room
+room = { id = "androidx.room", version.ref = "roomVersion" }
