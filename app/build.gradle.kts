@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    //Dagger + kapt
     alias(libs.plugins.daggerHilt)
+    alias(libs.plugins.room)
     id("kotlin-kapt")
 }
 
@@ -52,6 +52,10 @@ android {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -84,4 +88,9 @@ dependencies {
     //Paging3
     implementation(libs.paging3)
     implementation(libs.paging3.compose)
+    //Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.room.paging.version)
+    kapt(libs.room.compiler)
 }
