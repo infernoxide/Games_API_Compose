@@ -1,4 +1,4 @@
-package com.example.gamesapicompose.views
+package com.example.gamesapicompose.presentation.views
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
