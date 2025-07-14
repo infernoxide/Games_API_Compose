@@ -2,10 +2,10 @@ package com.example.gamesapicompose.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.gamesapicompose.BuildConfig
 import com.example.gamesapicompose.data.ApiGames
 import com.example.gamesapicompose.local.GamesDAO
 import com.example.gamesapicompose.local.GamesDatabase
-import com.example.gamesapicompose.util.Constants.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +23,7 @@ object AppModule {
     @Provides
     fun providesRetrofit():Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
