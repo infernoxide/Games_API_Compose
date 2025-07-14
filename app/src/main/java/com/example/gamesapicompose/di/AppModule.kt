@@ -3,9 +3,9 @@ package com.example.gamesapicompose.di
 import android.content.Context
 import androidx.room.Room
 import com.example.gamesapicompose.BuildConfig
-import com.example.gamesapicompose.data.ApiGames
-import com.example.gamesapicompose.local.GamesDAO
-import com.example.gamesapicompose.local.GamesDatabase
+import com.example.gamesapicompose.data.remote.ApiGames
+import com.example.gamesapicompose.data.local.room.dao.GamesDAO
+import com.example.gamesapicompose.data.local.room.GamesDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
