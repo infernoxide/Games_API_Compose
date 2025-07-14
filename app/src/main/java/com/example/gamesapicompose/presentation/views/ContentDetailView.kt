@@ -1,4 +1,4 @@
-package com.example.gamesapicompose.views
+package com.example.gamesapicompose.presentation.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

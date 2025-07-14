@@ -9,8 +9,8 @@ import androidx.navigation.navArgument
 import com.example.gamesapicompose.core.constants.Constants.Companion.NAV_DETAIL_VIEW
 import com.example.gamesapicompose.core.constants.Constants.Companion.NAV_HOME
 import com.example.gamesapicompose.presentation.viewmodel.GamesViewModel
-import com.example.gamesapicompose.views.DetailView
-import com.example.gamesapicompose.views.HomeView
+import com.example.gamesapicompose.presentation.views.DetailView
+import com.example.gamesapicompose.presentation.views.HomeView
 
 @Composable
 fun NavManager(viewModel: GamesViewModel) {
