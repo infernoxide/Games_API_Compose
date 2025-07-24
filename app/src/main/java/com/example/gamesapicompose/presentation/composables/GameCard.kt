@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import com.example.gamesapicompose.R
 import com.example.gamesapicompose.domain.model.GameList
 
@@ -23,11 +22,7 @@ fun GameCard(game: GameList, onclick: () -> Unit) {
             .clickable { onclick() }
     ) {
         Column {
-            ShowImage(
-                image = if (game.background_image!!.isNotEmpty()) game.background_image else stringResource(
-                    R.string.no_cover_image
-                )
-            )
+            ShowImage(image = game.background_image)
         }
     }
 }

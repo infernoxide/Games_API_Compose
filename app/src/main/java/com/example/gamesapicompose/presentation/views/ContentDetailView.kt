@@ -50,20 +50,24 @@ fun ContentDetailView(viewModel: GamesViewModel, paddingValues: PaddingValues) {
                             end = dimensionResource(R.dimen.size_5dp)
                         )
                 ) {
-                    MetacriticWebsite(stateLoading.data.website)
-                    MetascoreCard(stateLoading.data.metacritic)
+                    if (stateLoading.data.website.isNotEmpty())
+                        MetacriticWebsite(stateLoading.data.website)
+                    if (stateLoading.data.metacritic != 0)
+                        MetascoreCard(stateLoading.data.metacritic)
                 }
-                Text(
-                    text = stateLoading.data.description_raw,
-                    color = Color.Black,
-                    textAlign = TextAlign.Justify,
-                    modifier = Modifier
-                        .padding(
-                            horizontal = dimensionResource(R.dimen.size_15dp),
-                            vertical = dimensionResource(R.dimen.size_10dp)
-                        )
-                        .verticalScroll(scroll)
-                )
+                if (stateLoading.data.description_raw.isNotEmpty()){
+                    Text(
+                        text = stateLoading.data.description_raw,
+                        color = Color.Black,
+                        textAlign = TextAlign.Justify,
+                        modifier = Modifier
+                            .padding(
+                                horizontal = dimensionResource(R.dimen.size_15dp),
+                                vertical = dimensionResource(R.dimen.size_10dp)
+                            )
+                            .verticalScroll(scroll)
+                    )
+                }
             }
             is UiState.Error -> {
                 ErrorView(
