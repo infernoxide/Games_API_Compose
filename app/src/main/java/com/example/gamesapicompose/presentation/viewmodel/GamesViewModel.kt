@@ -11,10 +11,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.example.gamesapicompose.R
 import com.example.gamesapicompose.data.datasource.GamesDataSource
-import com.example.gamesapicompose.di.NetworkMonitor
 import com.example.gamesapicompose.data.local.room.entities.DetailGame
 import com.example.gamesapicompose.data.mapper.toEntity
-import com.example.gamesapicompose.domain.repository.GamesRepository
+import com.example.gamesapicompose.di.NetworkMonitor
+import com.example.gamesapicompose.domain.usescase.GetGameByIdUseCase
+import com.example.gamesapicompose.domain.usescase.GetGameByNameUseCase
+import com.example.gamesapicompose.domain.usescase.GetGamesByPagingUseCase
 import com.example.gamesapicompose.presentation.uistate.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -23,13 +25,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GamesViewModel @Inject constructor(
-    private val repository: GamesRepository,
     private val networkMonitor: NetworkMonitor,
+    private val getGameByIdUseCase: GetGameByIdUseCase,
+    private val getGamesByPagingUseCase: GetGamesByPagingUseCase,
+    private val getGameByNameUseCase: GetGameByNameUseCase,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
     private var pendingAction: (() -> Unit) ?= null
     val gamesPage = Pager(PagingConfig(pageSize = 3)){
-        GamesDataSource(repository)
+        GamesDataSource(getGamesByPagingUseCase)
     }.flow.cachedIn(viewModelScope)
     var gameByIdState: UiState<DetailGame> by mutableStateOf(UiState.Loading)
         private set
@@ -50,7 +54,7 @@ class GamesViewModel @Inject constructor(
     fun getGameByID(id: Int) {
         viewModelScope.launch {
             gameByIdState = UiState.Loading
-            val result = repository.getGameByID(id)
+            val result = getGameByIdUseCase(id)
             if (networkMonitor.isConnected.value) {
                 gameByIdState = if (result != null) {
                     UiState.Success(result)
@@ -72,7 +76,7 @@ class GamesViewModel @Inject constructor(
         viewModelScope.launch {
             gameByIdState = UiState.Loading
             if (networkMonitor.isConnected.value) {
-                val result = repository.getGameByName(name)
+                val result = getGameByNameUseCase(name)
                 gameByIdState = if (result != null) {
                     UiState.Success(result.toEntity())
                 } else {

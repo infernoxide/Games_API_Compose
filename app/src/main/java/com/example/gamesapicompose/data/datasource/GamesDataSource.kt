@@ -3,9 +3,12 @@ package com.example.gamesapicompose.data.datasource
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.gamesapicompose.domain.model.GameList
-import com.example.gamesapicompose.domain.repository.GamesRepository
+import com.example.gamesapicompose.domain.usescase.GetGamesByPagingUseCase
 
-class GamesDataSource(private val repository: GamesRepository) : PagingSource<Int, GameList>() {
+class GamesDataSource(
+    private val getGamesByPagingUseCase: GetGamesByPagingUseCase
+) : PagingSource<Int, GameList>() {
+
     override fun getRefreshKey(state: PagingState<Int, GameList>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
@@ -16,7 +19,7 @@ class GamesDataSource(private val repository: GamesRepository) : PagingSource<In
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GameList> {
         return try {
             val nextPageNumber = params.key ?: 1
-            val response = repository.getGamesByPaging(nextPageNumber, 3)
+            val response = getGamesByPagingUseCase(nextPageNumber, params.loadSize)
             LoadResult.Page(
                 data = response.results,
                 prevKey = null,

@@ -6,6 +6,8 @@ import com.example.gamesapicompose.BuildConfig
 import com.example.gamesapicompose.data.remote.ApiGames
 import com.example.gamesapicompose.data.local.room.dao.GamesDAO
 import com.example.gamesapicompose.data.local.room.GamesDatabase
+import com.example.gamesapicompose.data.repository.GamesRepositoryImpl
+import com.example.gamesapicompose.domain.repository.GamesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,6 +52,16 @@ object AppModule {
             "games_database"
         ).fallbackToDestructiveMigration()
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGamesRepository(
+        gamesDAO: GamesDAO,
+        apiGames: ApiGames,
+        networkMonitor: NetworkMonitor
+    ): GamesRepository {
+        return GamesRepositoryImpl(gamesDAO,apiGames,networkMonitor)
     }
 
 }
