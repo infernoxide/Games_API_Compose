@@ -30,6 +30,18 @@ pagingComposeVersion="1.0.0-alpha15"
 #Room
 roomVersion = "2.6.1"
 
+#Mockito
+mockitoVersion = "5.12.0"
+
+#MockitoKotlin
+mockitoKotlinVersion = "5.2.1"
+
+#Coroutines
+coroutinesVersion = "1.6.4"
+
+#Turbine
+turbineVersion = "0.12.1"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -71,6 +83,13 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 room-paging-version = { group = "androidx.room", name = "room-paging", version.ref = "roomVersion"}
+
+#Test
+mockitoCore = { module = "org.mockito:mockito-core", version.ref = "mockitoVersion" }
+coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutinesVersion"}
+mockitoInline = { module = "org.mockito:mockito-inline", version.ref = "mockitoVersion" }
+mockitoKotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlinVersion" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
