@@ -1,6 +1,5 @@
 package com.example.gamesapicompose.presentation.viewmodel
 
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -18,18 +17,18 @@ import com.example.gamesapicompose.domain.usescase.GetGameByIdUseCase
 import com.example.gamesapicompose.domain.usescase.GetGameByNameUseCase
 import com.example.gamesapicompose.domain.usescase.GetGamesByPagingUseCase
 import com.example.gamesapicompose.presentation.uistate.UiState
+import com.example.gamesapicompose.presentation.utils.StringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class GamesViewModel @Inject constructor(
     private val networkMonitor: NetworkMonitor,
+    private val stringProvider: StringProvider,
     private val getGameByIdUseCase: GetGameByIdUseCase,
     private val getGamesByPagingUseCase: GetGamesByPagingUseCase,
-    private val getGameByNameUseCase: GetGameByNameUseCase,
-    @ApplicationContext private val context: Context
+    private val getGameByNameUseCase: GetGameByNameUseCase
 ) : ViewModel() {
     private var pendingAction: (() -> Unit) ?= null
     val gamesPage = Pager(PagingConfig(pageSize = 3)){
@@ -59,14 +58,14 @@ class GamesViewModel @Inject constructor(
                 gameByIdState = if (result != null) {
                     UiState.Success(result)
                 } else {
-                    UiState.Error(context.getString(R.string.id_not_found, id.toString()))
+                    UiState.Error(stringProvider.getString(R.string.id_not_found, id.toString()))
                 }
             } else {
                 gameByIdState = if (result != null) {
                     UiState.Success(result)
                 } else {
                     pendingAction = { getGameByID(id) }
-                    UiState.Error(context.getString(R.string.no_internet_connection))
+                    UiState.Error(stringProvider.getString(R.string.no_internet_connection))
                 }
             }
         }
@@ -80,11 +79,11 @@ class GamesViewModel @Inject constructor(
                 gameByIdState = if (result != null) {
                     UiState.Success(result.toEntity())
                 } else {
-                    UiState.Error(context.getString(R.string.game_not_found, name))
+                    UiState.Error(stringProvider.getString(R.string.game_not_found, name))
                 }
             } else {
                 pendingAction = { getGameByName(name) }
-                gameByIdState = UiState.Error(context.getString(R.string.no_internet_connection))
+                gameByIdState = UiState.Error(stringProvider.getString(R.string.no_internet_connection))
             }
         }
     }

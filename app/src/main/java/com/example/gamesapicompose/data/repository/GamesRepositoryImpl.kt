@@ -9,7 +9,7 @@ import com.example.gamesapicompose.domain.model.GameList
 import com.example.gamesapicompose.domain.model.GamesModel
 import com.example.gamesapicompose.domain.model.SingleGameModel
 import com.example.gamesapicompose.domain.repository.GamesRepository
-import okio.IOException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class GamesRepositoryImpl @Inject constructor(
@@ -55,7 +55,7 @@ class GamesRepositoryImpl @Inject constructor(
         }
 
         if (!networkMonitor.isConnected.value) {
-            throw IOException("Sin conexión a internet")
+            throw UnknownHostException()
         }
 
         val response = apiGames.getGamesByPaging(page, pageSize)
