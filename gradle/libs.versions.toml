@@ -1,6 +1,6 @@
 [versions]
 agp = "8.6.0"
-kotlin = "1.9.0"
+kotlin = "2.0.21"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -41,6 +41,10 @@ coroutinesVersion = "1.6.4"
 
 #Turbine
 turbineVersion = "0.12.1"
+
+#KSP
+kspVersion = "2.0.21-1.0.27"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -94,9 +98,13 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 #Dagger
 daggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHiltVersion" }
 
 #Room
 room = { id = "androidx.room", version.ref = "roomVersion" }
+
+#KSP
+ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
