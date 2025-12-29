@@ -3,7 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.daggerHilt)
     alias(libs.plugins.room)
+    alias(libs.plugins.kotlin.compose)
+
     id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -89,7 +92,7 @@ dependencies {
     implementation(libs.compose.navigation)
     //Dagger
     implementation(libs.dagger.hilt)
-    kapt(libs.dagger.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
     //Paging3
     implementation(libs.paging3)
     implementation(libs.paging3.compose)
@@ -97,7 +100,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.room.paging.version)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     //Test
     implementation(libs.mockitoCore)
     implementation(libs.mockitoInline)
